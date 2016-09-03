@@ -59,15 +59,23 @@ jspm_packages
 mkdir src
 cd src
 echo "import express from 'express';
+var router = express.Router();
 let app = express();
-app.get('/', (req, res) => {
-  res.send('Welcome');
+router.get('/', function(req, res) {
+    res.send('Hello World!');
 });
-app.listen(3000);" > index.js
+app.use('/', router);
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});" > index.js
 
 
 echo "cd ~/documents/mynodecode/$1"
 echo "npm run dev"
 echo " "
-sed -i '' $'s|"\\\,"|"repository": \\\{"type": "git","url": "git://github.com/wolfeidau/npmtest.git"\\},' ~/documents/mynodecode/$1/package.json
-sed -i '' $'s|"test":|"dev":"babel-node src/index.js"\\\n"test":|g' ~/documents/mynodecode/$1/package.json
+// sed -i '' $'s|"\\\,"|"repository": \\\{"type": "git","url": "git://github.com/wolfeidau/npmtest.git"\\},' ~/documents/mynodecode/$1/package.json
+sed -i '' $'s|"test":|"dev":"babel-node src/index.js",\\\n"test":|g' ~/documents/mynodecode/$1/package.json
+
+cd ~/documents/mynodecode/$1
+npm run dev
